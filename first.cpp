@@ -11,7 +11,14 @@ void printMat(vvi x){
                 cout<<endl ;
         }
 }
-
+int count_edges(vvi x){
+        int count=0;
+        for(auto i:x){
+                for(auto j:i)
+                        if(i[j]>0) count++;
+        }
+        return count;
+}
 vector<int> get_all_edges(vector<vector<int> > g, int n,int i){
     vector<int> edges;
     for(int j=0;j<n;j++){
@@ -22,7 +29,7 @@ vector<int> get_all_edges(vector<vector<int> > g, int n,int i){
 
 int main(int argc,char *argv[]){
         string test=argv[1] ;
-        string input=test+".graphs" ;
+        string input=test+".graph" ;
         string output=test+".satinput" ;
         freopen(input.c_str(), "r", stdin);
         freopen(output.c_str(), "w", stdout);
@@ -65,9 +72,11 @@ int main(int argc,char *argv[]){
                 g[i[0]-1][i[1]-1]=1 ;
         for(auto i:gDashEdges)
                 g_dash[i[0]-1][i[1]-1]=1 ;
-        printMat(g) ;
-        printMat(g_dash) ;
-        
+       // printMat(g) ;
+       // printMat(g_dash) ;
+        int countEdges = count_edges(g_dash);
+        int count = countEdges*N+(N*(M)*(M-1))/2+M*(1+(N*(N-1))/2);
+        cout<<"p cnf "<<N*M<<' '<<count<<endl; 
         for(int i=0;i<M;i++){
                 for(int j=0;j<N;j++){
                         cout<<i*N+j+1<<' ';
