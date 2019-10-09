@@ -7,15 +7,15 @@ using namespace std ;
 void printMat(vvi x){
         for(auto i:x){
                 for(auto j:i)
-                        cout<<j<<" ";
-                cout<<endl ;
+                        cerr<<j<<" ";
+                cerr<<endl ;
         }
 }
 int count_edges(vvi x){
         int count=0;
         for(auto i:x){
                 for(auto j:i)
-                        if(i[j]>0) count++;
+                        if(j>0) count++;
         }
         return count;
 }
@@ -81,11 +81,14 @@ int main(int argc,char *argv[]){
         for(auto i:gDashEdges)
                 g_dash[i[0]-1][i[1]-1]=1 ;
        // printMat(g) ;
-       // printMat(g_dash) ;
+        //printMat(g_dash) ;
         int g_dash_countEdges = count_edges(g_dash);
-        int g_countNonEdges = N*N-count_edges(g);
-        int count = g_dash_countEdges*g_countNonEdges+ g_dash_countEdges*N+(N*(M)*(M-1))/2+M*(1+(N*(N-1))/2);
+        int g_countEdges = count_edges(g);
+        int g_dash_countNonEdges = (M)*(M)-count_edges(g_dash);
+        //cerr<<g_dash_countEdges<<' '<<g_countNonEdges<<endl;
+        int count = g_countEdges*g_dash_countNonEdges+ g_dash_countEdges*N+(N*(M)*(M-1))/2+M*(1+(N*(N-1))/2);
         cout<<"p cnf "<<N*M<<' '<<count<<endl; 
+        count=0;
         for(int i=0;i<M;i++){
                 for(int j=0;j<N;j++){
                         cout<<i*N+j+1<<' ';
@@ -97,6 +100,7 @@ int main(int argc,char *argv[]){
                         }
                 }
         }
+        count=0;
         for(int i=0;i<N;i++){
                 for(int j=0;j<M;j++){
                         for(int k=j+1;k<M;k++){
@@ -104,6 +108,7 @@ int main(int argc,char *argv[]){
                         }
                 }
         }
+        count=0;
         vvi g_dash_all_edges;
         for(int i=0;i<M;i++){
         	vector<int> z = get_all_edges(g_dash,M,i);
@@ -138,10 +143,10 @@ int main(int argc,char *argv[]){
                         vector<int> z = g_dash_non_edges[j];
                         for(int k=0;k<z.size();k++){
                                 for(int r=0;r<y.size();r++){
-                                        cout<<-1*(j*N+i+1)<<' '<<-1*(z[k]*N+y[r]+1)<<' '<<'0'<<endl;;
+                                        cout<<-1*(j*N+i+1)<<' '<<-1*(z[k]*N+y[r]+1)<<' '<<'0'<<endl;
                                 }
-                                
                         }
                 }
         }
+        //cerr<<count<<' '<<g_countEdges*g_dash_countNonEdges<<endl;
 }

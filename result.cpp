@@ -18,6 +18,10 @@ int main(int argc,char* argv[]) {
         freopen(output.c_str(), "w", stdout);        
         string s;
         cin>>s;
+        if(s=="UNSAT"){
+                cout<<'0';
+                return 0;
+        }
         vector<vector<int> > maping;
         for(int i=0;i<M;i++){
                 int flag =0;
