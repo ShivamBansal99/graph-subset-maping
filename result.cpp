@@ -2,6 +2,8 @@
 using namespace std;
 
 int main(int argc,char* argv[]) {
+		ios_base::sync_with_stdio(false);
+		cin.tie(NULL);
         int N,M ;
         if(argc<2){
                 cerr<<"Unsufficient number of arguments" ;
@@ -14,8 +16,8 @@ int main(int argc,char* argv[]) {
         NM.close() ;
         string input = test+".satoutput" ;
         string output = test+".mapping" ;
-        freopen(input.c_str(), "r", stdin);
-        freopen(output.c_str(), "w", stdout);        
+        (void) freopen(input.c_str(), "r", stdin);
+        (void) freopen(output.c_str(), "w", stdout);        
         string s;
         cin>>s;
         if(s=="UNSAT"){
