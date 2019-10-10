@@ -24,6 +24,24 @@ int main(int argc,char* argv[]) {
                 cout<<'0';
                 return 0;
         }
+		ifstream isolated;
+		string isolated_file_name = test+".isolated" ;
+		isolated.open(isolated_file_name);
+		int iso;
+		vector<int> isolated_g;
+		while(isolated>>iso){
+			if(iso==-1) break;
+			isolated_g.push_back(iso);
+		}
+		vector<int> isolated_g_dash;
+		unordered_set<int> isolated_g_dash_nodes_set; 
+		while(isolated>>iso){
+			isolated_g_dash.push_back(iso);
+			isolated_g_dash_nodes_set.insert(iso);
+		}
+		for(int i=0;i<isolated_g_dash.size();i++){
+			cout<<isolated_g_dash[i]<<' '<<isolated_g[i]<<endl;
+		}
         vector<vector<int> > maping;
         for(int i=0;i<M;i++){
                 int flag =0;
@@ -49,7 +67,7 @@ int main(int argc,char* argv[]) {
         for(int i=0;i<M;i++){
                 int index =0;
                 for(int j=0;j<N;j++){
-                        if(maping[i][j]>0){
+                        if(maping[i][j]>0 && isolated_g_dash_nodes_set.count(i+1)==0){
                                 cout<<i+1<<' '<<j+1<<endl;
                                 break;
                         }

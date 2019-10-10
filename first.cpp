@@ -40,10 +40,11 @@ int main(int argc,char *argv[]){
 		ios_base::sync_with_stdio(false);
 		cin.tie(NULL);
 		string test=argv[1] ;
-		string input=test+".graph" ;
+		string input=test+".graphs" ;
 		string output=test+".satinput" ;
 		(void) freopen(input.c_str(), "r", stdin);
 		(void) freopen(output.c_str(), "w", stdout);
+		
 		int a,b,temp,M=-1,N=-1 ;
 		vvi gEdges,gDashEdges ;
 		bool first=true,change=false ;
@@ -77,6 +78,36 @@ int main(int argc,char *argv[]){
 		NM.open(test+".NM") ;
 		NM<<N<<" "<<M<<endl ;
 		NM.close() ;
+		
+		vector<int> isolated_array(N,0) ;
+		vector<int> isolated_array2(M,0) ;
+		for(auto i:gEdges){
+			isolated_array[i[0]-1]=1;
+			isolated_array[i[1]-1]=1;
+		}
+		for(auto i:gDashEdges){
+			isolated_array2[i[0]-1]=1;
+			isolated_array2[i[1]-1]=1;
+		}
+		ofstream isolated ;
+		isolated.open(test+".isolated") ;
+		int count_g_iso=0,count_g_dash_iso=0;
+		for(int i=0;i<N;i++)
+			if(isolated_array[i]!=1){
+				isolated<<i+1<<' ' ;
+				count_g_iso++;
+			}
+		isolated<<-1<<' ' ;
+		for(int i=0;i<M;i++)
+			if(isolated_array2[i]!=1){
+				isolated<<i+1<<' ' ;
+				count_g_dash_iso++;
+			}
+		isolated.close() ;
+		if(count_g_dash_iso>count_g_iso){
+			cout<<"p cnf 1 2"<<endl<<"-1 0"<<endl<<"1 0"<<endl;
+			return 0;
+		}
 		vvi g(N,vi(N,0)) ;
 		vvi g_dash(M,vi(M,0)) ;
 		for(auto i:gEdges)
@@ -195,5 +226,5 @@ int main(int argc,char *argv[]){
 				}
 		}*/
 		//cerr<<count<<' '<<g_countEdges*g_dash_countNonEdges<<endl;
-		cerr<<chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now()-tstart).count() ;
+		//cerr<<chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now()-tstart).count() ;
 }
